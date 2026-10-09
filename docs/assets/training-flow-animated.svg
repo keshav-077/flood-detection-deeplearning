@@ -1,17 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" role="img" aria-labelledby="ttitle tdesc">
-  <title id="ttitle">Animated model training and inference flow</title>
-  <desc id="tdesc">Loop showing forward pass, loss, backward pass, weight update, and deployment on new Sentinel-2 tile pairs.</desc>
+  <title id="ttitle">Model training and inference flow</title>
+  <desc id="tdesc">Training loop and inference on new Sentinel-2 tile pairs.</desc>
   <defs>
     <linearGradient id="pulse" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#22d3ee">
-        <animate attributeName="stop-color" values="#22d3ee;#3b82f6;#22d3ee" dur="2.5s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="100%" stop-color="#3b82f6">
-        <animate attributeName="stop-color" values="#3b82f6;#6366f1;#3b82f6" dur="2.5s" repeatCount="indefinite"/>
-      </stop>
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
     </linearGradient>
     <filter id="soft">
-      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.25"/>
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.25"/>
     </filter>
     <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
       <path d="M0,0 L6,3 L0,6" fill="#64748b"/>
@@ -20,51 +17,44 @@
   <rect width="900" height="480" rx="16" fill="#0b1220"/>
   <text x="450" y="40" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">How the model learns and predicts floods</text>
 
-  <!-- Training loop ring -->
   <circle cx="280" cy="250" r="130" fill="none" stroke="#1e293b" stroke-width="14"/>
-  <circle cx="280" cy="250" r="130" fill="none" stroke="url(#pulse)" stroke-width="14" stroke-linecap="round"
-          stroke-dasharray="120 696" stroke-dashoffset="0">
+  <circle cx="280" cy="250" r="130" fill="none" stroke="url(#pulse)" stroke-width="14" stroke-linecap="round" stroke-dasharray="120 696">
     <animate attributeName="stroke-dashoffset" from="816" to="0" dur="4s" repeatCount="indefinite"/>
   </circle>
   <text x="280" y="235" text-anchor="middle" fill="#e2e8f0" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600">Training epoch</text>
   <text x="280" y="258" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">batch_size=16</text>
   <text x="280" y="278" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">up to 100 epochs</text>
 
-  <!-- Steps on ring -->
   <g font-family="Segoe UI, sans-serif" font-size="11" fill="#cbd5e1">
     <g filter="url(#soft)">
       <rect x="218" y="95" width="124" height="44" rx="10" fill="#1e293b" stroke="#334155"/>
-      <text x="280" y="122" text-anchor="middle">` Load batch</text>
+      <text x="280" y="122" text-anchor="middle">1. Load batch</text>
     </g>
     <g filter="url(#soft)">
       <rect x="118" y="228" width="124" height="44" rx="10" fill="#1e293b" stroke="#334155"/>
-      <text x="180" y="255" text-anchor="middle">a Forward U-Net</text>
+      <text x="180" y="255" text-anchor="middle">2. Forward U-Net</text>
     </g>
     <g filter="url(#soft)">
       <rect x="218" y="361" width="124" height="44" rx="10" fill="#1e293b" stroke="#334155"/>
-      <text x="280" y="388" text-anchor="middle">b BCE + metrics</text>
+      <text x="280" y="388" text-anchor="middle">3. BCE + metrics</text>
     </g>
     <g filter="url(#soft)">
       <rect x="318" y="228" width="124" height="44" rx="10" fill="#1e293b" stroke="#334155"/>
-      <text x="380" y="255" text-anchor="middle">c Backprop Adam</text>
+      <text x="380" y="255" text-anchor="middle">4. Backprop Adam</text>
     </g>
   </g>
 
-  <!-- Moving dot on loop -->
   <circle r="7" fill="#22d3ee">
     <animateMotion dur="4s" repeatCount="indefinite" path="M280,120 A130,130 0 1,1 279.9,120"/>
   </circle>
 
-  <!-- Inference panel -->
   <rect x="480" y="80" width="380" height="320" rx="14" fill="#111827" stroke="#374151" filter="url(#soft)"/>
   <text x="670" y="112" text-anchor="middle" fill="#f1f5f9" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600">Inference on new event</text>
 
-  <!-- Before tile -->
   <rect x="510" y="135" width="100" height="100" rx="8" fill="#14532d"/>
   <text x="560" y="128" text-anchor="middle" fill="#86efac" font-size="10" font-family="Segoe UI, sans-serif">Before</text>
   <rect x="520" y="145" width="80" height="80" rx="4" fill="#166534" opacity="0.7"/>
 
-  <!-- After tile -->
   <rect x="630" y="135" width="100" height="100" rx="8" fill="#1e3a8a"/>
   <text x="680" y="128" text-anchor="middle" fill="#93c5fd" font-size="10" font-family="Segoe UI, sans-serif">After</text>
   <rect x="640" y="145" width="80" height="80" rx="4" fill="#1d4ed8" opacity="0.6"/>
@@ -76,33 +66,27 @@
   <path d="M610 185 H625" stroke="#64748b" marker-end="url(#arr)"/>
   <path d="M730 185 H745" stroke="#64748b" marker-end="url(#arr)"/>
 
-  <!-- Model icon -->
   <rect x="755" y="150" width="90" height="70" rx="10" fill="#312e81" stroke="#6366f1"/>
   <text x="800" y="178" text-anchor="middle" fill="#c7d2fe" font-size="11" font-family="Segoe UI, sans-serif">U-Net</text>
   <text x="800" y="198" text-anchor="middle" fill="#a5b4fc" font-size="9" font-family="Segoe UI, sans-serif">best_model</text>
-
   <path d="M800 220 v25" stroke="#64748b" marker-end="url(#arr)"/>
 
-  <!-- Prediction -->
   <rect x="730" y="255" width="140" height="100" rx="10" fill="#0f172a" stroke="#0ea5e9"/>
   <text x="800" y="278" text-anchor="middle" fill="#7dd3fc" font-size="11" font-family="Segoe UI, sans-serif">Flood mask</text>
   <rect x="745" y="290" width="110" height="50" rx="6" fill="#020617"/>
-  <path d="M755 320 h20 v-15 h15 v25 h20 v-30 h25 v35" fill="none" stroke="#38bdf8" stroke-width="2">
-    <animate attributeName="stroke-opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite"/>
-  </path>
   <rect x="770" y="305" width="45" height="28" rx="3" fill="#0284c7" opacity="0.75">
     <animate attributeName="width" values="20;55;20" dur="2.2s" repeatCount="indefinite"/>
   </rect>
 
-  <!-- Data flow left to model -->
   <path d="M560 250 C620 280 680 260 755 185" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="5 4">
     <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1s" repeatCount="indefinite"/>
   </path>
 
-  <text x="670" y="385" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">Callbacks: EarlyStopping · ModelCheckpoint · ReduceLROnPlateau · TensorBoard</text>
+  <text x="670" y="385" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">Callbacks: EarlyStopping | ModelCheckpoint | ReduceLROnPlateau | TensorBoard</text>
 
-  <!-- Legend -->
   <rect x="40" y="420" width="400" height="44" rx="8" fill="#1e293b"/>
-  <circle cx="70" cy="442" r="6" fill="#22d3ee"><animate attributeName="r" values="5;8;5" dur="1.5s" repeatCount="indefinite"/></circle>
-  <text x="88" y="446" fill="#94a3b8" font-size="10" font-family="Segoe UI, sans-serif">Animated path = one full train step cycle</text>
+  <circle cx="70" cy="442" r="6" fill="#22d3ee">
+    <animate attributeName="r" values="5;8;5" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <text x="88" y="446" fill="#94a3b8" font-size="10" font-family="Segoe UI, sans-serif">Animated path = one full training step cycle</text>
 </svg>

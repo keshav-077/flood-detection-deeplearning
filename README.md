@@ -7,7 +7,9 @@
 **Bi-temporal Sentinel-2 segmentation for flood extent mapping** using a custom **U-Net** trained on the **[OMBRIA](https://www.ombria.org/)** change-detection dataset. The notebook loads pre- and post-event RGB tiles, learns pixel-wise flood masks, and evaluates with **Dice**, **IoU**, **precision**, and **recall**—supporting rapid disaster mapping workflows (including NRSC-oriented experiments).
 
 <p align="center">
-  <img src="docs/assets/system-architecture.svg" alt="End-to-end flood detection pipeline" width="900"/>
+  <a href="docs/assets/system-architecture.svg">
+    <img src="docs/assets/system-architecture.png" alt="End-to-end flood detection pipeline" width="900"/>
+  </a>
 </p>
 
 ---
@@ -31,7 +33,7 @@
 Satellite pairs and OMBRIA masks flow through preprocessing, the U-Net, metric tracking, and operational flood maps:
 
 <p align="center">
-  <img src="docs/assets/system-architecture.svg" alt="System architecture" width="860"/>
+  <img src="docs/assets/system-architecture.png" alt="System architecture" width="860"/>
 </p>
 
 ### U-Net topology
@@ -39,16 +41,20 @@ Satellite pairs and OMBRIA masks flow through preprocessing, the U-Net, metric t
 Contracting path (max pooling), bottleneck at `1024` filters, expanding path with **concatenated skip features**:
 
 <p align="center">
-  <img src="docs/assets/unet-architecture.svg" alt="U-Net architecture diagram" width="860"/>
+  <a href="docs/assets/unet-architecture.svg">
+    <img src="docs/assets/unet-architecture.png" alt="U-Net architecture diagram" width="860"/>
+  </a>
 </p>
 
 ### Training & inference (animated)
 
 <p align="center">
-  <img src="docs/assets/training-flow-animated.svg" alt="Animated training and inference flow" width="860"/>
+  <a href="docs/assets/training-flow-animated.svg">
+    <img src="docs/assets/training-flow-animated.png" alt="Training and inference flow (static preview)" width="860"/>
+  </a>
 </p>
 
-> SVG animations render in GitHub’s README viewer and most modern browsers.
+> **Tip:** GitHub does not embed SVG in README images (security policy). Click the training diagram above to open the **animated SVG**, or download [`training-flow-animated.svg`](docs/assets/training-flow-animated.svg) and open it in a browser.
 
 ---
 
@@ -59,10 +65,10 @@ FloodDetection-DeepLearning/
 ├── ombria_code_nrsc.ipynb   # Full workflow: data → train → evaluate → visualize
 ├── requirements.txt
 ├── LICENSE
-└── docs/assets/             # Architecture & training SVG diagrams
-    ├── system-architecture.svg
-    ├── unet-architecture.svg
-    └── training-flow-animated.svg
+└── docs/assets/             # Architecture diagrams (PNG for README + SVG sources)
+    ├── system-architecture.png / .svg
+    ├── unet-architecture.png / .svg
+    └── training-flow-animated.png / .svg  (animated — open SVG in browser)
 ```
 
 ---
