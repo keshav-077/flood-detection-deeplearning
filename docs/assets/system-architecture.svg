@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-labelledby="title desc">
+  <title id="title">Flood detection system architecture</title>
+  <desc id="desc">End-to-end pipeline from Sentinel-2 imagery and OMBRIA labels to U-Net inference and disaster response outputs.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="960" height="420" rx="16" fill="#0b1220"/>
+  <rect x="24" y="24" width="912" height="56" rx="12" fill="url(#sky)" opacity="0.15"/>
+  <text x="48" y="58" fill="#e2e8f0" font-family="Segoe UI, system-ui, sans-serif" font-size="22" font-weight="700">Sentinel-2 Bi-temporal Flood Segmentation Pipeline</text>
+  <text x="48" y="82" fill="#94a3b8" font-family="Segoe UI, system-ui, sans-serif" font-size="13">OMBRIA dataset · 256×256 patches · 6-channel input (RGB before + RGB after)</text>
+
+  <!-- Stage boxes -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="120" width="150" height="110" rx="12" fill="url(#card)" stroke="#334155"/>
+    <rect x="40" y="120" width="150" height="4" rx="2" fill="url(#accent)"/>
+    <text x="115" y="152" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600">Sentinel-2</text>
+    <text x="115" y="174" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">BEFORE / AFTER</text>
+    <text x="115" y="196" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">10 m multispectral</text>
+    <circle cx="70" cy="210" r="8" fill="#4ade80" opacity="0.9"/>
+    <circle cx="90" cy="210" r="8" fill="#fbbf24" opacity="0.9"/>
+    <circle cx="110" cy="210" r="8" fill="#60a5fa" opacity="0.9"/>
+    <text x="130" y="214" fill="#64748b" font-size="9" font-family="Segoe UI, sans-serif">RGB</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="230" y="120" width="150" height="110" rx="12" fill="url(#card)" stroke="#334155"/>
+    <rect x="230" y="120" width="150" height="4" rx="2" fill="#22d3ee"/>
+    <text x="305" y="152" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600">Preprocess</text>
+    <text x="305" y="176" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Normalize ÷255</text>
+    <text x="305" y="198" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Stack channels ’ 6D</text>
+    <text x="305" y="218" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">Train / val / test split</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="420" y="105" width="180" height="140" rx="12" fill="url(#card)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="420" y="105" width="180" height="4" rx="2" fill="url(#accent)"/>
+    <text x="510" y="138" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, sans-serif" font-size="15" font-weight="700">U-Net</text>
+    <text x="510" y="162" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Encoderdecoder + skips</text>
+    <text x="510" y="184" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">LeakyReLU · Dropout 0.5</text>
+    <text x="510" y="206" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Sigmoid flood mask</text>
+    <rect x="450" y="218" width="120" height="14" rx="7" fill="#1e3a5f"/>
+    <rect x="450" y="218" width="72" height="14" rx="7" fill="#3b82f6">
+      <animate attributeName="width" values="40;120;40" dur="3s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="640" y="120" width="130" height="110" rx="12" fill="url(#card)" stroke="#334155"/>
+    <rect x="640" y="120" width="130" height="4" rx="2" fill="#38bdf8"/>
+    <text x="705" y="152" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600">Metrics</text>
+    <text x="705" y="176" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">Dice · IoU</text>
+    <text x="705" y="194" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">Precision · Recall</text>
+    <text x="705" y="212" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">TensorBoard logs</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="800" y="120" width="120" height="110" rx="12" fill="url(#card)" stroke="#334155"/>
+    <rect x="800" y="120" width="120" height="4" rx="2" fill="#4ade80"/>
+    <text x="860" y="152" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600">Impact</text>
+    <text x="860" y="178" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">Flood extent maps</text>
+    <text x="860" y="196" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="10">Response planning</text>
+    <text x="860" y="214" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">NRSC / OMBRIA</text>
+  </g>
+
+  <!-- Arrows -->
+  <path d="M190 175 H225" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M380 175 H415" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M600 175 H635" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M770 175 H795" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Ground truth branch -->
+  <g filter="url(#shadow)">
+    <rect x="230" y="280" width="150" height="90" rx="12" fill="url(#card)" stroke="#475569"/>
+    <text x="305" y="312" text-anchor="middle" fill="#f8fafc" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600">OMBRIA masks</text>
+    <text x="305" y="334" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Pixel-wise flood labels</text>
+    <text x="305" y="354" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="10">Supervised training</text>
+  </g>
+  <path d="M305 280 V245" stroke="#475569" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <path d="M380 325 H415 L510 245" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+
+  <text x="480" y="395" text-anchor="middle" fill="#64748b" font-family="Segoe UI, sans-serif" font-size="11">Inference: same 6-channel tensor ’ binary flood probability map per tile</text>
+</svg>
